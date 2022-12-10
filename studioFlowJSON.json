@@ -10,6 +10,7 @@
           "event": "incomingMessage"
         },
         {
+          "next": "connect_virtual_agent_1",
           "event": "incomingCall"
         },
         {
@@ -211,6 +212,78 @@
           "x": 190,
           "y": 630
         }
+      }
+    },
+    {
+      "name": "connect_virtual_agent_1",
+      "type": "connect-virtual-agent-v2",
+      "transitions": [
+        {
+          "next": "Routing_to_agent",
+          "event": "live-agent-handoff"
+        },
+        {
+          "event": "hangup"
+        },
+        {
+          "event": "failed"
+        },
+        {
+          "event": "completed"
+        }
+      ],
+      "properties": {
+        "offset": {
+          "x": 140,
+          "y": 230
+        },
+        "status_callback_method": "POST",
+        "configurations": [],
+        "status_callback": "https://webhook.site/2c1a060a-0cc5-4b82-8a10-8ce7161f04e4",
+        "connector_name": "sartamn-dialogflow-demo Banking Automation",
+        "parameters": []
+      }
+    },
+    {
+      "name": "Routing_to_agent",
+      "type": "say-play",
+      "transitions": [
+        {
+          "next": "send_to_flex_1",
+          "event": "audioComplete"
+        }
+      ],
+      "properties": {
+        "offset": {
+          "x": 70,
+          "y": 500
+        },
+        "loop": 1,
+        "say": ""
+      }
+    },
+    {
+      "name": "send_to_flex_1",
+      "type": "send-to-flex",
+      "transitions": [
+        {
+          "event": "callComplete"
+        },
+        {
+          "event": "failedToEnqueue"
+        },
+        {
+          "event": "callFailure"
+        }
+      ],
+      "properties": {
+        "offset": {
+          "x": 150,
+          "y": 730
+        },
+        "workflow": "WW99b1d34c0fd9e75e281d46426df9ff80",
+        "channel": "TC4d619d996565df79b641c2aafe68cde2",
+        "attributes": "{ \"type\": \"agent_handoff\", \"name\": \"{{trigger.call.From}}\" }"
       }
     }
   ],
